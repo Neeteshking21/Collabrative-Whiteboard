@@ -17,6 +17,14 @@ io.on('connect', (skt)=>{
         })
     })
 
+    skt.on('down', (data)=>{
+       connections.forEach(con=>{
+           if(con.id !== skt.id) {
+            con.emit('ondown', {x: data.x, y:data.y})
+           }
+       }) 
+    })
+
     skt.on('disconnect', (reason)=>{
         console.log(`${skt.id} is disconnect`)
         connections = connections.filter((con)=> con.id !== skt.id)
